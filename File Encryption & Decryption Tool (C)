@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void processFile(const char *inputFile, const char *outputFile, char key) {
+    FILE *in = fopen(inputFile, "rb");
+    FILE *out = fopen(outputFile, "wb");
+
+    if (in == NULL || out == NULL) {
+        printf("❌ Error opening file.\n");
+        return;
+    }
+
+    char ch;
+
+    while ((ch = fgetc(in)) != EOF) {
+        fputc(ch ^ key, out);  // XOR encryption/decryption
+    }
+
+    fclose(in);
+    fclose(out);
+
+    printf("✅ Operation completed successfully!\n");
+}
+
+int main() {
+    int choice;
+    char inputFile[100], outputFile[100];
+    char key;
+
+    printf("🔐 File Encryption & Decryption Tool\n");
+    printf("1. Encrypt File\n");
+    printf("2. Decrypt File\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    printf("Enter input file name: ");
+    scanf("%s", inputFile);
+
+    printf("Enter output file name: ");
+    scanf("%s", outputFile);
+
+    printf("Enter key (single character): ");
+    scanf(" %c", &key);
+
+    if (choice == 1 || choice == 2) {
+        processFile(inputFile, outputFile, key);
+    } else {
+        printf("❌ Invalid choice.\n");
+    }
+
+    return 0;
+}
